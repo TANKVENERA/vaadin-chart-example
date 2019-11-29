@@ -17,18 +17,22 @@ public class RandomEmployeeGenerator {
     private static final String[] names = {"Bob", "Jhon", "Mike", "Bill", "Ann", "Todd", "Steve", "Nick"};
     private static final String[] languages = {"English", "Russian", "German", "Chinese", "French"};
     private static final String[] technologies = {"Java", "Php", "Ruby", "Javascript", "C++"};
+    private static Set<Employee> employees;
 
 
     public static Set<Employee> generate () {
-        Set<Employee> employees = new HashSet<>();
-        for (String name : names) {
-            final Employee employee = new Employee();
-            Set<String> randomLanguages = getRandomSet(languages);
-            Set<String> randomTechnologies = getRandomSet(technologies);
-            employee.setName(name);
-            employee.setLanguage(randomLanguages);
-            employee.setTechnology(randomTechnologies);
-            employees.add(employee);
+        if (employees == null) {
+            employees = new HashSet<>();
+            for (String name : names) {
+                final Employee employee = new Employee();
+                Set<String> randomLanguages = getRandomSet(languages);
+                Set<String> randomTechnologies = getRandomSet(technologies);
+                employee.setName(name);
+                employee.setLanguage(randomLanguages);
+                employee.setTechnology(randomTechnologies);
+                employees.add(employee);
+            }
+            return employees;
         }
         return employees;
     }

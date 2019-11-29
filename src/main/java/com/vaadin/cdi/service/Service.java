@@ -2,6 +2,9 @@ package com.vaadin.cdi.service;
 
 import com.vaadin.cdi.model.Employee;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,4 +15,6 @@ import java.util.Set;
 public interface Service {
 
     Set<Employee> getAll();
+
+    void delete (Employee e);
 }
