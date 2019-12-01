@@ -34,7 +34,7 @@ import java.util.Set;
 public class TableComponent extends VerticalLayout {
 
     @Inject
-    public TableComponent(final Service service, final ChartComponent chartComponent) {
+    public TableComponent(final Service service) {
         final Grid<Employee> grid = new Grid<>(Employee.class);
         Set<Employee> employees = service.getAll();
         grid.setItems(employees);
