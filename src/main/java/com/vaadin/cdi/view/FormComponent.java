@@ -31,8 +31,12 @@ public class FormComponent extends HorizontalLayout {
         FormLayout formLayout = new FormLayout();
         TextField name = new TextField("", "Name");
         CheckboxGroup<String> language = new CheckboxGroup<>();
-        language.setItems("English", "Russian");
+        language.setItems("English", "Russian", "Chinese", "Russian", "German");
+        CheckboxGroup<String> technology = new CheckboxGroup<>();
+        language.setItems("English", "Russian", "Chinese", "French", "German");
+        technology.setItems("Java", "Php", "Ruby", "Javascript", "C++");
         formLayout.addFormItem(name, "");
+        formLayout.addFormItem(technology, "");
         formLayout.addFormItem(language, "");
         Employee createdEmployee = new Employee();
         Binder<Employee> binder = new Binder<>();
@@ -41,10 +45,11 @@ public class FormComponent extends HorizontalLayout {
         add(formLayout, save);
         binder.forField(name).withValidator(new StringLengthValidator("Set employee name!", 1, null))
                 .bind(Employee::getName, Employee::setName);
-        binder.forField(language).withValidator(e -> e.size() > 0, "At least one item is needed!" ).bind(Employee::getLanguage, Employee::setLanguage);
+        binder.forField(language).withValidator(e -> e.size() > 0, "At least one language is needed!" ).bind(Employee::getLanguage, Employee::setLanguage);
+        binder.forField(technology).withValidator(e -> e.size() > 0, "At least one technology is needed!" ).bind(Employee::getTechnology, Employee::setTechnology);
         save.addClickListener(e -> {
             if (binder.writeBeanIfValid(createdEmployee)) {
-                System.out.println(createdEmployee.getLanguage() + "LLLLL");
+                System.out.println(createdEmployee.getLanguage() + "LLLLL" + createdEmployee.getTechnology());
             } else {
 
             }
