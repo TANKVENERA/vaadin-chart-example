@@ -15,7 +15,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.page.Push;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.Command;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -31,10 +33,11 @@ import java.util.Set;
  * Date: 29.11.2019
  */
 
+
 public class TableComponent extends VerticalLayout {
 
     @Inject
-    public TableComponent(final Service service) {
+    public TableComponent(final Service service, final ChartComponent chartComponent) {
         final Grid<Employee> grid = new Grid<>(Employee.class);
         Set<Employee> employees = service.getAll();
         grid.setItems(employees);
@@ -42,10 +45,10 @@ public class TableComponent extends VerticalLayout {
         grid.addComponentColumn(e -> getItems(e.getLanguage())).setHeader("Languages");
         grid.addComponentColumn(e -> getItems(e.getTechnology())).setHeader("Stack");
         grid.addComponentColumn(e -> new Button("Remove", event -> {
-            service.delete(e);
-            UI.getCurrent().getPage().reload();
+                service.delete(e);
         }));
-        add(grid);
+       add(grid);
+
     }
 
     private static HorizontalLayout getItems (Set<String> items) {
@@ -53,4 +56,6 @@ public class TableComponent extends VerticalLayout {
         items.forEach(item -> horizontalLayout.add(new Label(item)));
         return horizontalLayout;
     }
+
+
 }

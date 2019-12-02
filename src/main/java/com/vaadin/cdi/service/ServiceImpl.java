@@ -25,6 +25,11 @@ public class ServiceImpl implements Service {
         getData().remove(e);
     }
 
+    @Override
+    public void addEmployee(Employee e) {
+        getData().add(e);
+    }
+
     private static Set<Employee> getData() {
         return RandomEmployeeGenerator.generate();
     }
