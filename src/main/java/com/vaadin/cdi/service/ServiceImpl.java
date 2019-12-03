@@ -1,11 +1,6 @@
 package com.vaadin.cdi.service;
-
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.util.RandomEmployeeGenerator;
-
-import javax.enterprise.context.Dependent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**

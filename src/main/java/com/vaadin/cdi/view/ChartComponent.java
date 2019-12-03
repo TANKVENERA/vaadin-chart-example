@@ -5,7 +5,6 @@ import com.vaadin.cdi.service.Service;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.page.Push;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -17,7 +16,6 @@ import java.util.*;
 
 
 public class ChartComponent extends HorizontalLayout {
-    private DataSeries series;
 
     @Inject
     public ChartComponent(final Service service) {
@@ -38,7 +36,7 @@ public class ChartComponent extends HorizontalLayout {
         chart.getConfiguration().getChart().setType(ChartType.PIE);
 
         Configuration conf = chart.getConfiguration();
-        series = new DataSeries();
+        DataSeries series = new DataSeries();
         Tooltip tooltip = new Tooltip();
         tooltip.setValueDecimals(1);
         Set<String> set = new HashSet<>(items);
@@ -48,11 +46,4 @@ public class ChartComponent extends HorizontalLayout {
         return chart;
     }
 
-    public DataSeries getSeries() {
-        return series;
-    }
-
-    public void setSeries(DataSeries series) {
-        this.series = series;
-    }
 }

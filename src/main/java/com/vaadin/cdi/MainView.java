@@ -27,7 +27,6 @@ public class MainView extends VerticalLayout {
         public MainView(final TableComponent tableComponent,
                         final ChartComponent chartComponent,
                         final FormComponent formComponent) {
-            VerticalLayout layout = new VerticalLayout();
             Button button = new Button("Refresh data");
             button.addClickListener((e)-> UI.getCurrent().getPage().reload());
             add(button, tableComponent, formComponent, chartComponent);

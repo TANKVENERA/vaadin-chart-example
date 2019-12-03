@@ -1,9 +1,7 @@
 package com.vaadin.cdi.util;
 
 import com.vaadin.cdi.model.Employee;
-
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
