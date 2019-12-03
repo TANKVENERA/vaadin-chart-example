@@ -19,9 +19,11 @@ import java.util.Set;
 
 public class TableComponent extends VerticalLayout {
 
+    private Grid<Employee> grid;
+
     @Inject
     public TableComponent(final Service service) {
-        final Grid<Employee> grid = new Grid<>(Employee.class);
+        grid = new Grid<>(Employee.class);
         Set<Employee> employees = service.getAll();
         grid.setItems(employees);
         grid.setColumns("name");
@@ -41,5 +43,11 @@ public class TableComponent extends VerticalLayout {
         return horizontalLayout;
     }
 
+    public Grid<Employee> getGrid() {
+        return grid;
+    }
 
+    public void setGrid(Grid<Employee> grid) {
+        this.grid = grid;
+    }
 }

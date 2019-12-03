@@ -7,9 +7,12 @@ import com.vaadin.cdi.view.TableComponent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLayout;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
@@ -21,14 +24,18 @@ import javax.inject.Inject;
 
 @Route
 @Push
-public class MainView extends VerticalLayout {
+public class MainView extends VerticalLayout implements RouterLayout {
 
         @Inject
         public MainView(final TableComponent tableComponent,
                         final ChartComponent chartComponent,
                         final FormComponent formComponent) {
-            Button button = new Button("Refresh data");
-            button.addClickListener((e)-> UI.getCurrent().getPage().reload());
-            add(button, tableComponent, formComponent, chartComponent);
+            Button btn = new Button("Refresh data");
+            Button chartBtn = new Button("Refresh chart");
+            btn.addClickListener((e) -> UI.getCurrent().access(() -> {
+                tableComponent.getGrid().getDataProvider().refreshAll();
+            }));
+            chartBtn.addClickListener((e) -> UI.getCurrent().getPage().reload());
+            add(new HorizontalLayout(btn, chartBtn), tableComponent, formComponent, chartComponent);
         }
 }
