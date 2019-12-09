@@ -6,11 +6,18 @@ import com.vaadin.cdi.annotation.UIScoped;
 import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
+import com.vaadin.cdi.util.StaticData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.data.renderer.Renderer;
+import com.vaadin.flow.data.selection.SingleSelect;
+import javafx.scene.control.ComboBox;
+import org.vaadin.gatanaso.MultiselectComboBox;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -33,7 +40,30 @@ public class TableComponent extends VerticalLayout {
         Set<Employee> employees = service.getAll();
         grid.setItems(employees);
         grid.setColumns("name");
-        grid.addComponentColumn(e -> getItems(e.getLanguage())).setHeader("Languages");
+        grid.setItemDetailsRenderer(new ComponentRenderer<>(person -> {
+            HorizontalLayout horizontalLayout = new HorizontalLayout();
+            TextField nameField = new TextField("", person.getName(), "");
+            nameField.getStyle().set("padding-right", "200px");
+            MultiselectComboBox<String > langs = new MultiselectComboBox<>();
+//            langs.getStyle().set("padding-right", "150px");
+            langs.setWidth("100%");
+            MultiselectComboBox<String > stack = new MultiselectComboBox<>();
+//            stack.getStyle().set("padding-right", "150px");
+            langs.setItems(StaticData.languages);
+            langs.setValue(person.getLanguage());
+            stack.setItems(StaticData.technologies);
+            stack.setValue(person.getTechnology());
+            Button editBtn = new Button("Update", event -> {
+
+                person.setName(nameField.getValue());
+                person.setLanguage(langs.getSelectedItems());
+                person.setTechnology(stack.getSelectedItems());
+                grid.getDataProvider().refreshAll();
+            });
+            horizontalLayout.add(nameField, langs, stack, editBtn);
+            return horizontalLayout;
+        }));
+        grid.addComponentColumn(e -> getItems(e.getLanguage())).setHeader("Languages").setWidth("400px");
         grid.addComponentColumn(e -> getItems(e.getTechnology())).setHeader("Stack");
         grid.addComponentColumn(e -> new Button("Remove", event -> {
                 service.delete(e);

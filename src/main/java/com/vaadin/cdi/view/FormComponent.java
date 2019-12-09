@@ -6,6 +6,7 @@ import com.vaadin.cdi.annotation.UIScoped;
 import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
+import com.vaadin.cdi.util.StaticData;
 import com.vaadin.cdi.util.TimeLogger;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -40,9 +41,9 @@ public class FormComponent extends HorizontalLayout {
         HorizontalLayout hor = new HorizontalLayout();
         TextField name = new TextField("", "Name");
         CheckboxGroup<String> language = new CheckboxGroup<>();
-        language.setItems("English", "Russian", "Chinese", "French", "German");
+        language.setItems(StaticData.languages);
         CheckboxGroup<String> technology = new CheckboxGroup<>();
-        technology.setItems("Java", "Php", "Ruby", "Javascript", "C++");
+        technology.setItems(StaticData.technologies);
         Button save = new Button("Save");
         hor.add(name, language, technology, save);
         formLayout.add(hor);
@@ -63,7 +64,6 @@ public class FormComponent extends HorizontalLayout {
                 Notification.show("Fix data and retry!");
             }
         });
-
     }
 
 

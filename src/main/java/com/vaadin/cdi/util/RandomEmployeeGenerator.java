@@ -13,8 +13,8 @@ import java.util.Set;
 public class RandomEmployeeGenerator {
 
     private static final String[] names = {"Bob", "Jhon", "Mike", "Bill", "Ann", "Todd", "Steve", "Nick"};
-    private static final String[] languages = {"English", "Russian", "German", "Chinese", "French"};
-    private static final String[] technologies = {"Java", "Php", "Ruby", "Javascript", "C++"};
+    private static final String[] languages = StaticData.languages;
+    private static final String[] technologies = StaticData.technologies;
     private static Set<Employee> employees;
 
 
