@@ -9,6 +9,7 @@ import com.vaadin.cdi.service.Service;
 import com.vaadin.cdi.util.StaticData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -43,12 +44,16 @@ public class TableComponent extends VerticalLayout {
         grid.setItemDetailsRenderer(new ComponentRenderer<>(person -> {
             HorizontalLayout horizontalLayout = new HorizontalLayout();
             TextField nameField = new TextField("", person.getName(), "");
-            nameField.getStyle().set("padding-right", "200px");
+            Div nameFieldDiv = new Div();
+            Div langsDiv = new Div();
+            Div stackDiv = new Div();
+            nameFieldDiv.setWidth("160px");
+            langsDiv.setWidth("420px");
+            stackDiv.setWidth("420px");
             MultiselectComboBox<String > langs = new MultiselectComboBox<>();
-//            langs.getStyle().set("padding-right", "150px");
-            langs.setWidth("100%");
+            langsDiv.add(langs);
             MultiselectComboBox<String > stack = new MultiselectComboBox<>();
-//            stack.getStyle().set("padding-right", "150px");
+            stackDiv.add(stack);
             langs.setItems(StaticData.languages);
             langs.setValue(person.getLanguage());
             stack.setItems(StaticData.technologies);
@@ -60,11 +65,11 @@ public class TableComponent extends VerticalLayout {
                 person.setTechnology(stack.getSelectedItems());
                 grid.getDataProvider().refreshAll();
             });
-            horizontalLayout.add(nameField, langs, stack, editBtn);
+            horizontalLayout.add(nameField, langsDiv, stackDiv, editBtn);
             return horizontalLayout;
         }));
         grid.addComponentColumn(e -> getItems(e.getLanguage())).setHeader("Languages").setWidth("400px");
-        grid.addComponentColumn(e -> getItems(e.getTechnology())).setHeader("Stack");
+        grid.addComponentColumn(e -> getItems(e.getTechnology())).setHeader("Stack").setWidth("400px");
         grid.addComponentColumn(e -> new Button("Remove", event -> {
                 service.delete(e);
                 grid.getDataProvider().refreshAll();
