@@ -1,6 +1,9 @@
 package com.vaadin.cdi.view;
 
 
+import com.vaadin.cdi.annotation.NormalUIScoped;
+import com.vaadin.cdi.annotation.UIScoped;
+import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
 import com.vaadin.flow.component.button.Button;
@@ -8,6 +11,8 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.util.Set;
 
@@ -16,10 +21,11 @@ import java.util.Set;
  * Date: 29.11.2019
  */
 
-
+@UIScoped
 public class TableComponent extends VerticalLayout {
 
     private Grid<Employee> grid;
+
 
     @Inject
     public TableComponent(final Service service) {

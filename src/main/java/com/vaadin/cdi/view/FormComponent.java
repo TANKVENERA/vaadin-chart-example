@@ -1,8 +1,12 @@
 package com.vaadin.cdi.view;
 
 import com.vaadin.cdi.MainView;
+import com.vaadin.cdi.annotation.NormalUIScoped;
+import com.vaadin.cdi.annotation.UIScoped;
+import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
+import com.vaadin.cdi.util.TimeLogger;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -16,6 +20,7 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 
@@ -24,11 +29,13 @@ import javax.inject.Inject;
  * Date: 29.11.2019
  */
 
-
+@UIScoped
 public class FormComponent extends HorizontalLayout {
 
+
+
     @Inject
-    public FormComponent(final Service service, TableComponent tableComponent) {
+    public FormComponent(final Service service, final TimeLogger timeLogger) {
         FormLayout formLayout = new FormLayout();
         HorizontalLayout hor = new HorizontalLayout();
         TextField name = new TextField("", "Name");
@@ -50,7 +57,7 @@ public class FormComponent extends HorizontalLayout {
             Employee createdEmployee = new Employee();
             if (binder.writeBeanIfValid(createdEmployee)) {
                 service.addEmployee(createdEmployee);
-                Notification.show(createdEmployee.getName() + " was successfully added to employee list!");
+                Notification.show(createdEmployee.getName() + " added at: " + timeLogger.getTime());
                 binder.readBean(null);
             } else {
                 Notification.show("Fix data and retry!");

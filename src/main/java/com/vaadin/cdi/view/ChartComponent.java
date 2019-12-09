@@ -1,11 +1,16 @@
 package com.vaadin.cdi.view;
 
+import com.vaadin.cdi.annotation.NormalUIScoped;
+import com.vaadin.cdi.annotation.UIScoped;
+import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
+import com.vaadin.cdi.util.TimeLogger;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.util.*;
 
@@ -14,8 +19,10 @@ import java.util.*;
  * Date: 29.11.2019
  */
 
-
+@UIScoped
 public class ChartComponent extends HorizontalLayout {
+
+
 
     @Inject
     public ChartComponent(final Service service) {
