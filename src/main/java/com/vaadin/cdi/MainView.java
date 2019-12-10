@@ -2,7 +2,6 @@ package com.vaadin.cdi;
 
 
 import com.vaadin.cdi.annotation.UIScoped;
-import com.vaadin.cdi.util.TimeLogger;
 import com.vaadin.cdi.view.ChartComponent;
 import com.vaadin.cdi.view.FormComponent;
 import com.vaadin.cdi.view.TableComponent;
@@ -14,7 +13,6 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 

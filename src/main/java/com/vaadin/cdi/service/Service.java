@@ -2,7 +2,6 @@ package com.vaadin.cdi.service;
 
 import com.vaadin.cdi.model.Employee;
 
-import javax.enterprise.context.SessionScoped;
 import java.util.Set;
 
 /**

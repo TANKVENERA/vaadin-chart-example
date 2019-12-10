@@ -1,27 +1,19 @@
 package com.vaadin.cdi.view;
 
-import com.vaadin.cdi.MainView;
-import com.vaadin.cdi.annotation.NormalUIScoped;
 import com.vaadin.cdi.annotation.UIScoped;
-import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
 import com.vaadin.cdi.util.StaticData;
 import com.vaadin.cdi.util.TimeLogger;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.StringLengthValidator;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLayout;
 
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 
@@ -45,6 +37,7 @@ public class FormComponent extends HorizontalLayout {
         CheckboxGroup<String> technology = new CheckboxGroup<>();
         technology.setItems(StaticData.technologies);
         Button save = new Button("Save");
+        save.getStyle().set("cursor", "pointer");
         hor.add(name, language, technology, save);
         formLayout.add(hor);
         formLayout.setWidth("2000px");

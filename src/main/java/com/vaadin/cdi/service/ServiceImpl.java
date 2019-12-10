@@ -1,10 +1,8 @@
 package com.vaadin.cdi.service;
-import com.vaadin.cdi.annotation.VaadinSessionScoped;
+
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.util.RandomEmployeeGenerator;
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Set;
 
