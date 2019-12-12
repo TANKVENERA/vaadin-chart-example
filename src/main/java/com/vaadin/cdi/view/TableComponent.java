@@ -3,15 +3,20 @@ package com.vaadin.cdi.view;
 import com.vaadin.cdi.annotation.UIScoped;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
+import com.vaadin.cdi.util.FireEventBean;
 import com.vaadin.cdi.util.StaticData;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import org.slf4j.Logger;
 import org.vaadin.gatanaso.MultiselectComboBox;
+
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.Set;
 
@@ -24,9 +29,11 @@ import java.util.Set;
 public class TableComponent extends VerticalLayout {
 
     private Grid<Employee> grid;
+    @Inject
+    private Logger logger;
 
     @Inject
-    public TableComponent(final Service service) {
+    public TableComponent(final Service service, final FireEventBean fireEventBean) {
         grid = new Grid<>(Employee.class);
         Set<Employee> employees = service.getAll();
         grid.setItems(employees);
@@ -42,13 +49,16 @@ public class TableComponent extends VerticalLayout {
             stack.getStyle().set("padding-right", "200px");
             langs.setItems(StaticData.languages);
             langs.setValue(person.getLanguage());
+            langs.setClearButtonVisible(true);
             stack.setItems(StaticData.technologies);
             stack.setValue(person.getTechnology());
+            stack.setClearButtonVisible(true);
             Button editBtn = new Button("Edit", event -> {
                 person.setName(nameField.getValue());
                 person.setLanguage(langs.getSelectedItems());
                 person.setTechnology(stack.getSelectedItems());
                 grid.getDataProvider().refreshAll();
+                fireEventBean.fireEvent(person.getName() + " was updated", ViewType.Type.TABLE);
             });
             editBtn.getStyle().set("cursor", "pointer");
             horizontalLayout.add(nameField, langs, stack, editBtn);
@@ -56,15 +66,16 @@ public class TableComponent extends VerticalLayout {
         }));
         grid.addComponentColumn(employee -> getItems(employee.getLanguage())).setHeader("Languages").setWidth("600px");
         grid.addComponentColumn( employee -> getItems(employee.getTechnology())).setHeader("Stack").setWidth("600px");
-        grid.addComponentColumn(employee -> {
-                    Button button = new Button("Remove");
-                    button.getStyle().set("cursor", "pointer");
-                    button.addClickListener(event -> {
-                        service.delete(employee);
-                        grid.getDataProvider().refreshAll();
-                    });
-                    return button;
+        grid.addComponentColumn(person -> {
+                Button button = new Button("Remove");
+                button.getStyle().set("cursor", "pointer");
+                button.addClickListener(event -> {
+                    fireEventBean.fireEvent(person.getName() + " was deleted", ViewType.Type.TABLE);
+                    service.delete(person);
+                    grid.getDataProvider().refreshAll();
                 });
+                return button;
+            });
        add(grid);
 
     }
@@ -81,5 +92,10 @@ public class TableComponent extends VerticalLayout {
 
     public void setGrid(Grid<Employee> grid) {
         this.grid = grid;
+    }
+
+    private void logInfo(@Observes @ViewType(ViewType.Type.TABLE) String msg){
+        logger.info(msg);
+        Notification.show(msg);
     }
 }
