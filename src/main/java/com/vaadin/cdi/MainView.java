@@ -2,18 +2,17 @@ package com.vaadin.cdi;
 
 
 import com.vaadin.cdi.annotation.UIScoped;
+import com.vaadin.cdi.service.Service;
 import com.vaadin.cdi.util.FireEventBean;
 import com.vaadin.cdi.util.StaticData;
-import com.vaadin.cdi.view.ChartComponent;
-import com.vaadin.cdi.view.FormComponent;
-import com.vaadin.cdi.view.TableComponent;
-import com.vaadin.cdi.view.ViewType;
+import com.vaadin.cdi.view.*;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.Input;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.ironlist.IronList;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.notification.Notification;
@@ -27,10 +26,7 @@ import org.slf4j.Logger;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 
@@ -80,8 +76,7 @@ public class MainView extends VerticalLayout implements RouterLayout {
 
             });
             horizontalLayout.add(menuBar);
-
-            add(horizontalLayout, new HorizontalLayout(btn, chartBtn), tableComponent, formComponent, chartComponent);
+        add(new HelloWorld());
         }
 
     private void logInfo(@Observes @ViewType(ViewType.Type.MAIN) String msg) {
