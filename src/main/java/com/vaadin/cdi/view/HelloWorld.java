@@ -25,12 +25,9 @@ import java.util.List;
 @NpmPackage(value = "@polymer/paper-card", version = "3.0.1")
 @NpmPackage(value = "@polymer/paper-dialog", version = "3.0.1")
 @NpmPackage(value = "@polymer/paper-button", version = "3.0.1")
-
+@NpmPackage(value = "@polymer/iron-list", version = "3.1.0")
 @JsModule("./src/hello-world.js")
 public class HelloWorld extends PolymerTemplate<HelloWorldModel> {
-    private static final String EMPTY_NAME_GREETING = "Please enter your name";
-
-
 
     public HelloWorld() {
         List<String> names = new ArrayList<>();
