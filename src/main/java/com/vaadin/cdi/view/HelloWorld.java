@@ -31,7 +31,7 @@ public class HelloWorld extends PolymerTemplate<HelloWorldModel> {
 
     public HelloWorld() {
         List<String> names = new ArrayList<>();
-        for (int i = 0; i <=500; i++) {
+        for (int i = 1; i <=20; i++) {
             names.add("User: " + i);
         }
         setId("template");

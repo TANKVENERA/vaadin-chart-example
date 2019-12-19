@@ -12,13 +12,6 @@ class HelloWorld extends PolymerElement {
    static get template() {
       return html`
         <style>
-            :host{
-                display: flex;
-              }
-              paper-card {
-                      width: 100%;
-                      height: 100%;
-                    }
           .cafe-header { @apply --paper-font-headline; }
           .cafe-light { color: var(--paper-grey-600); }
           .cafe-location {
@@ -26,36 +19,55 @@ class HelloWorld extends PolymerElement {
                 font-size: 15px;
                 vertical-align: middle;
           }
-           .block {
-              width: 60%;
-              padding: 2%;
-          }
+           .block:hover {
+                cursor: pointer;
+                    }
+          iron-list {
+             width: 50%;
+             margin-left: 25%;
+             position: absolute;
+           }
+           .block{
+            padding-bottom: 15px;
+           }
         </style>
-      <div>
-           <iron-swipeable-container>
-                 <iron-list items="{{items}} as="item">
-                    <div class="block">
+            <iron-list id="list" items="{{items}}" scroll-target="document">
+              <template>
+              <div class="block">
+               <iron-swipeable-container >
+                    <div on-track="_track">
                         <paper-card>
                            <div class="card-content">
-                             <div class="cafe-header">[[item]]
-                               <div class="cafe-location cafe-light">
-                                 <iron-icon icon="search"></iron-icon>
-                               </div>
-                             </div>
+                             <div class="cafe-header">{{item}}</div>
                              <p>$・Car Price</p>
                              <p class="cafe-light">Small plates, salads &amp; sandwiches in an intimate setting with 12 indoor seats plus patio seating.</p>
                            </div>
                            <div class="card-actions">
                                 <p>Tonights availability</p>
-                            </div>
+                           </div>
                         </paper-card>
                     </div>
-                 </iron-list>
-           </iron-swipeable-container>
-      </div>
+                 </iron-swipeable-container >
+               </div
+              </template>
+            </iron-list>
       `;
     }
 
+    _track(e) {
+           switch(e.detail.state) {
+                case 'track':
+                   console.log("WWWW", e.detail.dx);
+                    break;
+                case 'end':
+                 if (e.detail.dx > e.currentTarget.offsetWidth/2  || e.detail.dx*(-1) > e.currentTarget.offsetWidth/2) {
+                 console.log("DDDDD ", e.currentTarget.offsetWidth, 'AAAA', e.detail.dx)
+                    delete this.$.list.items[e.model.__data.index]
+                    this.$.list.notifyResize();
+                 }
+                  break;
+           }
+    }
   }
 
 customElements.define('hello-world', HelloWorld);

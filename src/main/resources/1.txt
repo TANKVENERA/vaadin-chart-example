@@ -1,0 +1,52 @@
+  <div>LOLOLO
+             <iron-list id="list" items="{{items}}" as="item" scroll-target="document">
+                   <template>
+                   <iron-swipeable-container >
+                            <div class="block" on-track="_track" on-click="_info">
+                                <paper-card>
+                                   <div class="card-content">
+                                     <div class="cafe-header">{{item}}
+                                       <div class="cafe-location cafe-light">
+                                         <iron-icon icon="search"></iron-icon>
+                                       </div>
+                                     </div>
+                                     <p>$・Car Price</p>
+                                     <p class="cafe-light">Small plates, salads &amp; sandwiches in an intimate setting with 12 indoor seats plus patio seating.</p>
+                                   </div>
+                                   <div class="card-actions">
+                                        <p>Tonights availability</p>
+                                    </div>
+                                </paper-card>
+                            </div>
+                     <iron-swipeable-container>
+                   </template>
+             </iron-list>
+        </div>
+
+
+          _info(event) {
+                    const index = event.model.__data.index;
+        //            console.log("FFFFF", this.$.list.items, " ", index);
+                }
+
+            _track(e) {
+                 switch(e.detail.state) {
+        //                  case 'track':
+        //                       console.log( 'Tracking in progress... ' + e.detail.dx + ', ' + e.detail.dy)
+        //                    break;
+                          case 'end':
+                           if (e.detail.dx > 150) {
+                            console.log(this.$.list.items.item);
+        //                    this.splice("items", e.model.__data.index, 1);
+                            this.$.list.items.splice(e.model.__data.index, 1)
+                            console.log(this.$.list.items);
+        //                    this.$.list.items = this.$.list.items.splice(e.model.__data.index, 1)
+
+                            console.log('Ended with x coordinate: ' + e.detail.dx )
+                           }
+                           else {
+                            console.log('Aborted: ' + e.detail.dx )
+                           }
+                            break;
+                        }
+            }
