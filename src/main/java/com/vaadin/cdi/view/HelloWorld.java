@@ -4,8 +4,10 @@ import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
 import com.vaadin.cdi.util.StaticData;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.templatemodel.Encode;
 
@@ -31,11 +33,19 @@ public class HelloWorld extends PolymerTemplate<HelloWorldModel> {
 
     public HelloWorld() {
         List<String> names = new ArrayList<>();
-        for (int i = 1; i <=20; i++) {
+        for (int i = 1; i <=6; i++) {
             names.add("User: " + i);
         }
         setId("template");
         getModel().setItems(names);
+        getElement().addPropertyChangeListener("hostProperty", event -> System.out
+                .println("LOLOLOL " + getModel().getHostProperty()));
+        getElement().addPropertyChangeListener("items", event -> System.out
+                .println("AAAAA " + getModel().getItems()));
+        System.out.println("DDDDD " + getModel().getItems());
+        System.out.println("SSSS " + getModel().getHostProperty());
+        Button btn = new Button("submit");
+        btn.addClickListener(e-> System.out.println("????? " + getModel().getHostProperty()));
     }
 
 }

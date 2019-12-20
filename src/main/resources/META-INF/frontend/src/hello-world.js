@@ -23,19 +23,20 @@ class HelloWorld extends PolymerElement {
                 cursor: pointer;
                     }
           iron-list {
-             width: 50%;
-             margin-left: 25%;
+             width: 40%;
+             margin-left: 30%;
              position: absolute;
            }
            .block{
-            padding-bottom: 15px;
-           }
+                        padding-bottom: 15px;
+                       }
         </style>
-            <iron-list id="list" items="{{items}}" scroll-target="document">
+//            <input on-value-changed="_ddd" value="{{hostProperty::input}}" />
+
+            <iron-list id="list" items="{{items::changed}}" as="item" scroll-target="document">
               <template>
-              <div class="block">
-               <iron-swipeable-container >
-                    <div on-track="_track">
+              <div on-change="_ddd" class="block">
+                   <iron-swipeable-container on-iron-swipe="_handleSwipe">
                         <paper-card>
                            <div class="card-content">
                              <div class="cafe-header">{{item}}</div>
@@ -46,28 +47,50 @@ class HelloWorld extends PolymerElement {
                                 <p>Tonights availability</p>
                            </div>
                         </paper-card>
-                    </div>
-                 </iron-swipeable-container >
+                   </iron-swipeable-container >
                </div
               </template>
             </iron-list>
       `;
     }
 
-    _track(e) {
-           switch(e.detail.state) {
-                case 'track':
-                   console.log("WWWW", e.detail.dx);
-                    break;
-                case 'end':
-                 if (e.detail.dx > e.currentTarget.offsetWidth/2  || e.detail.dx*(-1) > e.currentTarget.offsetWidth/2) {
-                 console.log("DDDDD ", e.currentTarget.offsetWidth, 'AAAA', e.detail.dx)
-                    delete this.$.list.items[e.model.__data.index]
-                    this.$.list.notifyResize();
-                 }
-                  break;
-           }
+    _ddd() {
+        console.log('aaaaaaaa');
     }
+
+    _handleSwipe(e) {
+        console.log(e.model)
+//        this.$.aaa.value = this.$.list.items[e.model.__data.index]
+//        this.lololo = this.$.list.items[e.model.__data.index]
+        delete this.$.list.items[e.model.__data.index]
+        console.log("After", this.$.aaa.value);
+        this.$.list.notifyResize();
+    }
+
+//    _track(e) {
+//           switch(e.detail.state) {
+//                case 'track':
+//                        console.log("In track:  ", e.model)
+//                        break;
+//                case 'end':
+//                 if (e.detail.dx > e.currentTarget.offsetWidth/2  || e.detail.dx*(-1) > e.currentTarget.offsetWidth/2) {
+//                    console.log('curr index', e.model.__data.index)
+//                    delete this.$.list.items[e.model.__data.index]
+//                     e.model.__dataHost.parentNode.children[e.model.__data.index + 1].remove()
+//
+//                     console.log("DDDDD ", this.items, "MODEL", e.model.__dataHost.parentNode.children)
+//                     this.items.splice(e.model.__data.index, 1)
+//                      console.log("AFTER", this.items)
+//                            iron._virtualCount = (this.items.length <= 20) ? this.items.length : 20;
+//                            iron.fire("iron-resize");
+//                            console.log("AAAA ", this.items)
+//
+//                            iron._render();
+//                    this.$.list.notifyResize();
+//                 }
+//                  break;
+//           }
+//    }
   }
 
 customElements.define('hello-world', HelloWorld);

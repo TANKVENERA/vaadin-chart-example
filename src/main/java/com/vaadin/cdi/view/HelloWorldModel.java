@@ -16,6 +16,9 @@ import java.util.Set;
  */
 public interface HelloWorldModel extends TemplateModel {
 
+     void setHostProperty(String propertyValue);
+     String getHostProperty();
+     void setItems(List<String> items);
+     List<String> getItems();
 
-     void setItems(List<String> names);
 }
