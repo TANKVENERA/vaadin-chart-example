@@ -31,11 +31,13 @@ class HelloWorld extends PolymerElement {
                         padding-bottom: 15px;
                        }
         </style>
-//            <input on-value-changed="_ddd" value="{{hostProperty::input}}" />
+        
+        //
+//            <input value="{{hostProperty::_ddd}}" />
 
             <iron-list id="list" items="{{items::changed}}" as="item" scroll-target="document">
               <template>
-              <div items-changed="_ddd" class="block">
+              <div on-input="_ddd" class="block">
                    <iron-swipeable-container on-iron-swipe="_handleSwipe">
                         <paper-card>
                            <div class="card-content">
@@ -48,7 +50,7 @@ class HelloWorld extends PolymerElement {
                            </div>
                         </paper-card>
                    </iron-swipeable-container >
-               </div
+               </div>
               </template>
             </iron-list>
       `;
@@ -66,31 +68,6 @@ class HelloWorld extends PolymerElement {
 //        console.log("After", this.$.aaa.value);
         this.$.list.notifyResize();
     }
-
-//    _track(e) {
-//           switch(e.detail.state) {
-//                case 'track':
-//                        console.log("In track:  ", e.model)
-//                        break;
-//                case 'end':
-//                 if (e.detail.dx > e.currentTarget.offsetWidth/2  || e.detail.dx*(-1) > e.currentTarget.offsetWidth/2) {
-//                    console.log('curr index', e.model.__data.index)
-//                    delete this.$.list.items[e.model.__data.index]
-//                     e.model.__dataHost.parentNode.children[e.model.__data.index + 1].remove()
-//
-//                     console.log("DDDDD ", this.items, "MODEL", e.model.__dataHost.parentNode.children)
-//                     this.items.splice(e.model.__data.index, 1)
-//                      console.log("AFTER", this.items)
-//                            iron._virtualCount = (this.items.length <= 20) ? this.items.length : 20;
-//                            iron.fire("iron-resize");
-//                            console.log("AAAA ", this.items)
-//
-//                            iron._render();
-//                    this.$.list.notifyResize();
-//                 }
-//                  break;
-//           }
-//    }
   }
 
 customElements.define('hello-world', HelloWorld);
