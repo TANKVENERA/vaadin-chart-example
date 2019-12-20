@@ -35,7 +35,7 @@ class HelloWorld extends PolymerElement {
 
             <iron-list id="list" items="{{items::changed}}" as="item" scroll-target="document">
               <template>
-              <div on-change="_ddd" class="block">
+              <div items-changed="_ddd" class="block">
                    <iron-swipeable-container on-iron-swipe="_handleSwipe">
                         <paper-card>
                            <div class="card-content">
@@ -63,7 +63,7 @@ class HelloWorld extends PolymerElement {
 //        this.$.aaa.value = this.$.list.items[e.model.__data.index]
 //        this.lololo = this.$.list.items[e.model.__data.index]
         delete this.$.list.items[e.model.__data.index]
-        console.log("After", this.$.aaa.value);
+//        console.log("After", this.$.aaa.value);
         this.$.list.notifyResize();
     }
 
