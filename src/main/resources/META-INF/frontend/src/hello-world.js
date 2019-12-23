@@ -7,6 +7,7 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/iron-list/iron-list.js';
+import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js';
 
 class HelloWorld extends PolymerElement {
    static get template() {
@@ -22,22 +23,20 @@ class HelloWorld extends PolymerElement {
            .block:hover {
                 cursor: pointer;
                     }
-          iron-list {
-             width: 40%;
-             margin-left: 30%;
-             position: absolute;
-           }
            .block{
-                        padding-bottom: 15px;
-                       }
+                padding-bottom: 15px;
+           }
+           iron-swipeable-container{
+                width: 40%;
+                margin-left: 30%;
+                position: absolute;
+           }
         </style>
-//            <input on-value-changed="_ddd" value="{{hostProperty::input}}" />
-
-            <iron-list id="list" items="{{items::changed}}" as="item" scroll-target="document">
-              <template>
-              <div items-changed="_ddd" class="block">
-                   <iron-swipeable-container on-iron-swipe="_handleSwipe">
-                        <paper-card>
+        <iron-scroll-threshold id="scrollTheshold" on-lower-threshold="_load" scroll-target="document">
+           <iron-swipeable-container  on-iron-swipe="handleSwipe" scroll-target="document">
+               <template id="list" is="dom-repeat" items="{{items}}">
+                   <div  class="block">
+                       <paper-card>
                            <div class="card-content">
                              <div class="cafe-header">{{item}}</div>
                              <p>$・Car Price</p>
@@ -46,51 +45,29 @@ class HelloWorld extends PolymerElement {
                            <div class="card-actions">
                                 <p>Tonights availability</p>
                            </div>
-                        </paper-card>
-                   </iron-swipeable-container >
-               </div
-              </template>
-            </iron-list>
+                       </paper-card>
+                   </div>
+               </template>
+           </iron-swipeable-container >
+        </iron-scroll-threshold>
       `;
     }
 
-    _ddd() {
-        console.log('aaaaaaaa');
-    }
 
-    _handleSwipe(e) {
-        console.log(e.model)
-//        this.$.aaa.value = this.$.list.items[e.model.__data.index]
-//        this.lololo = this.$.list.items[e.model.__data.index]
-        delete this.$.list.items[e.model.__data.index]
-//        console.log("After", this.$.aaa.value);
-        this.$.list.notifyResize();
-    }
+     _load (e) {
+        this.$.list.items
+        this.$server.loadMoreData(this.$.list.items.length);
+        setTimeout(() => {
+            this.$.scrollTheshold.clearTriggers();
+        }, 500);
+     }
 
-//    _track(e) {
-//           switch(e.detail.state) {
-//                case 'track':
-//                        console.log("In track:  ", e.model)
-//                        break;
-//                case 'end':
-//                 if (e.detail.dx > e.currentTarget.offsetWidth/2  || e.detail.dx*(-1) > e.currentTarget.offsetWidth/2) {
-//                    console.log('curr index', e.model.__data.index)
-//                    delete this.$.list.items[e.model.__data.index]
-//                     e.model.__dataHost.parentNode.children[e.model.__data.index + 1].remove()
-//
-//                     console.log("DDDDD ", this.items, "MODEL", e.model.__dataHost.parentNode.children)
-//                     this.items.splice(e.model.__data.index, 1)
-//                      console.log("AFTER", this.items)
-//                            iron._virtualCount = (this.items.length <= 20) ? this.items.length : 20;
-//                            iron.fire("iron-resize");
-//                            console.log("AAAA ", this.items)
-//
-//                            iron._render();
-//                    this.$.list.notifyResize();
-//                 }
-//                  break;
-//           }
-//    }
+        handleSwipe(e) {
+            var i = this.$.list.indexForElement(e.detail.target)
+            const item = this.$.list.items[i];
+            this.$server.deleteItem(item);
+        }
+
   }
 
 customElements.define('hello-world', HelloWorld);

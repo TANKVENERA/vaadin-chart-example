@@ -3,6 +3,7 @@ package com.vaadin.cdi.view;
 import com.vaadin.cdi.model.Employee;
 import com.vaadin.cdi.service.Service;
 import com.vaadin.cdi.util.StaticData;
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -28,24 +29,27 @@ import java.util.List;
 @NpmPackage(value = "@polymer/paper-dialog", version = "3.0.1")
 @NpmPackage(value = "@polymer/paper-button", version = "3.0.1")
 @NpmPackage(value = "@polymer/iron-list", version = "3.1.0")
+@NpmPackage(value = "@polymer/iron-scroll-threshold", version = "3.0.1")
 @JsModule("./src/hello-world.js")
 public class HelloWorld extends PolymerTemplate<HelloWorldModel> {
 
     public HelloWorld() {
-        List<String> names = new ArrayList<>();
-        for (int i = 1; i <=6; i++) {
-            names.add("User: " + i);
-        }
         setId("template");
-        getModel().setItems(names);
-        getElement().addPropertyChangeListener("hostProperty", event -> System.out
-                .println("LOLOLOL " + getModel().getHostProperty()));
-        getElement().addPropertyChangeListener("items", event -> System.out
-                .println("AAAAA " + getModel().getItems()));
-        System.out.println("DDDDD " + getModel().getItems());
-        System.out.println("SSSS " + getModel().getHostProperty());
-        Button btn = new Button("submit");
-        btn.addClickListener(e-> System.out.println("????? " + getModel().getHostProperty()));
+    }
+
+    @ClientCallable
+    public void loadMoreData (Integer size) {
+        System.out.println("DDDD "  + getModel().getItems());
+        for (int i = size + 1; i <=size + 5; i++) {
+            getModel().getItems().add("User: " + i);
+        }
+    }
+
+    @ClientCallable
+    public void deleteItem (String item) {
+        System.out.println(item + "TERMINA " +  getModel().getItems());
+//        getModel().getItems().remove(item);
+
     }
 
 }
