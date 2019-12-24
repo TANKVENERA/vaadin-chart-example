@@ -32,11 +32,23 @@ class HelloWorld extends PolymerElement {
                 position: absolute;
            }
         </style>
+<<<<<<< HEAD
         <iron-scroll-threshold id="scrollTheshold" on-lower-threshold="_load" scroll-target="document">
            <iron-swipeable-container  on-iron-swipe="handleSwipe" scroll-target="document">
                <template id="list" is="dom-repeat" items="{{items}}">
                    <div  class="block">
                        <paper-card>
+=======
+        
+        //
+//            <input value="{{hostProperty::_ddd}}" />
+
+            <iron-list id="list" items="{{items::changed}}" as="item" scroll-target="document">
+              <template>
+              <div on-input="_ddd" class="block">
+                   <iron-swipeable-container on-iron-swipe="_handleSwipe">
+                        <paper-card>
+>>>>>>> 60b02f872fa9da5cee059e81c7b7500b7e9cbf65
                            <div class="card-content">
                              <div class="cafe-header">{{item}}</div>
                              <p>$・Car Price</p>
@@ -45,15 +57,24 @@ class HelloWorld extends PolymerElement {
                            <div class="card-actions">
                                 <p>Tonights availability</p>
                            </div>
+<<<<<<< HEAD
                        </paper-card>
                    </div>
                </template>
            </iron-swipeable-container >
         </iron-scroll-threshold>
+=======
+                        </paper-card>
+                   </iron-swipeable-container >
+               </div>
+              </template>
+            </iron-list>
+>>>>>>> 60b02f872fa9da5cee059e81c7b7500b7e9cbf65
       `;
     }
 
 
+<<<<<<< HEAD
      _load (e) {
         this.$.list.items
         this.$server.loadMoreData(this.$.list.items.length);
@@ -68,6 +89,16 @@ class HelloWorld extends PolymerElement {
             this.$server.deleteItem(item);
         }
 
+=======
+    _handleSwipe(e) {
+        console.log(e.model)
+//        this.$.aaa.value = this.$.list.items[e.model.__data.index]
+//        this.lololo = this.$.list.items[e.model.__data.index]
+        delete this.$.list.items[e.model.__data.index]
+//        console.log("After", this.$.aaa.value);
+        this.$.list.notifyResize();
+    }
+>>>>>>> 60b02f872fa9da5cee059e81c7b7500b7e9cbf65
   }
 
 customElements.define('hello-world', HelloWorld);
